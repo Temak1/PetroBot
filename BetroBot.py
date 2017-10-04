@@ -17,34 +17,13 @@ async def on_ready():
 	print('Logged in as ' + client.user.name + ' with id ' + client.user.id)
 	print('-----')
 
-"""@client.event
-async def on_resumed():
-	print('Resumed in as ' + client.user.name + ' with id ' + client.user.id)
-	print('-----')"""
-
-"""@client.event
-async def on_message(message):
-	print("check 1")
-	if message.content.startswith('!@check'):
-		print("check 2")
-		channel = message.channel
-		await channel.send('Send me that reaction, mate')
-		def check(reaction, user):
-			return user == message.author and str(reaction.emoji) == ''
-		try:
-			reaction, user = await client.wait_for('reaction_add', timeout=60.0, check=check)
-		except asyncio.TimeoutError:
-			await channel.send('')
-		else:
-			await channel.send('')"""
-
 @client.event
 async def on_message(message):
 	if message.channel.name == 'general':
 		file_name = 'list_file.txt'
 	else:
 		file_name = 'test_file.txt'
-	print(file_name + ' choosen')
+	print(file_name + ' chosen')
 
 	if message.content.startswith('!@help'):
 		await client.send_message(message.channel, BOT_HELP)
@@ -87,19 +66,9 @@ async def on_message(message):
 		os.remove(file_name)
 		await client.add_reaction(message, '✅')
 		print('Список данного канала удалён')
-	# elif message.content.startswith('!@clrchannel'):
-	# 	counter = 0
-	# 	async for msg in client.logs_from(message.channel, limit=1000):
-	# 		if msg.author == client.user:
-	# 			await client.delete_message(msg)
-	# 			counter += 1
-	# 	print('You have {} messages.'.format(counter))
 
-
-# Событие срабатывает только если реакция появилась под последним сообщением!
 @client.event
 async def on_reaction_add(reaction, user):
-	#print('1')
 	if (not reaction.me and reaction.message.author != user):
 		if reaction.emoji == '✅': #White check mark
 			with open ('list_file.txt', 'r') as list_file:
@@ -113,5 +82,3 @@ async def on_reaction_add(reaction, user):
 		elif reaction.emoji == '❌': #Cross Mark
 			await client.remove_reaction(reaction.message, '✅', me) #removing White check mark
 			print('Видео не прошло голосование')
-
-client.run('MzU4OTU0Njc4MDIyODMyMTI4.DLQAoQ.tD2IwZLsvOs8BSeLYQYwXe9AE2k')
